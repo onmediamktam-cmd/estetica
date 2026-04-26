@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Estética — Beleza que Transforma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FAF7F2;--cream-dark:#F0EBE0;--gold:#C9A87A;--gold-light:#E8D5B7;
+  --rose:#F5E6DF;--dark:#2A2020;--gray:#6B6060;--white:#fff;
+  --serif:'Playfair Display',serif;--sans:'Poppins',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--dark);overflow-x:hidden}
+
+/* CURSOR */
+.cursor{width:22px;height:22px;border:2px solid var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:all .15s ease;mix-blend-mode:multiply}
+.cursor-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:all .05s ease}
+
+/* SCROLL PROGRESS */
+#scrollProgress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),#e8b89a);z-index:9999;width:0;transition:width .1s}
+
+/* NAVBAR */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;transition:all .4s ease}
+.nav.scrolled{background:rgba(255,255,255,.96);backdrop-filter:blur(20px);padding:14px 60px;box-shadow:0 2px 30px rgba(0,0,0,.06)}
+.nav-logo{font-family:var(--serif);font-size:1.5rem;color:var(--dark);text-decoration:none;letter-spacing:1px}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--dark);font-size:.82rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--gold) !important;color:#fff !important;padding:10px 26px;border-radius:30px;transition:background .3s,transform .3s !important}
+.nav-cta:hover{background:var(--dark) !important;transform:translateY(-2px) !important}
+.nav-cta::after{display:none !important}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:var(--cream)}
+.hero-blob{position:absolute;border-radius:50%;background:var(--rose)}
+.hero-blob-1{width:600px;height:600px;top:-150px;right:-100px;opacity:.55;animation:blobFloat 8s ease-in-out infinite}
+.hero-blob-2{width:320px;height:320px;bottom:60px;right:380px;opacity:.3;animation:blobFloat 6s ease-in-out infinite reverse}
+.hero-blob-3{width:160px;height:160px;top:35%;left:28%;opacity:.2;animation:blobFloat 10s ease-in-out infinite}
+@keyframes blobFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.04)}}
+
+.sparkle{position:absolute;pointer-events:none;font-size:1.1rem;color:var(--gold);opacity:0;animation:sparkle 3s ease-in-out infinite}
+.sparkle:nth-child(1){top:22%;left:14%;animation-delay:0s}
+.sparkle:nth-child(2){top:62%;left:6%;animation-delay:1s;font-size:.7rem}
+.sparkle:nth-child(3){top:78%;right:32%;animation-delay:2s}
+.sparkle:nth-child(4){top:12%;right:46%;animation-delay:.5s;font-size:.65rem}
+.sparkle:nth-child(5){bottom:18%;left:42%;animation-delay:1.5s}
+@keyframes sparkle{0%,100%{opacity:0;transform:scale(.5) rotate(0deg)}50%{opacity:1;transform:scale(1.3) rotate(180deg)}}
+
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;align-items:center;max-width:1200px;margin:0 auto;padding:130px 60px 70px;gap:60px;position:relative;z-index:2}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-light);color:var(--gold);padding:8px 20px;border-radius:30px;font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:26px}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--gold);border-radius:50%}
+.hero-title{font-family:var(--serif);font-size:clamp(2.4rem,4vw,3.8rem);line-height:1.2;margin-bottom:20px}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:.97rem;color:var(--gray);line-height:1.85;max-width:440px;margin-bottom:38px}
+
+.hero-btns{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.btn-gold{background:var(--gold);color:#fff;padding:15px 34px;border-radius:50px;text-decoration:none;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:10px;box-shadow:0 8px 25px rgba(201,168,122,.4);transition:all .3s}
+.btn-gold:hover{background:var(--dark);transform:translateY(-3px);box-shadow:0 15px 35px rgba(0,0,0,.15)}
+.btn-ghost{color:var(--dark);text-decoration:none;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:10px;transition:all .3s}
+.btn-ghost:hover{color:var(--gold);gap:16px}
+.btn-ghost .arr{width:42px;height:42px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.btn-ghost:hover .arr{background:var(--gold);color:#fff}
+
+.hero-stats{display:flex;gap:32px;margin-top:48px;padding-top:28px;border-top:1px solid var(--gold-light);flex-wrap:wrap}
+.hero-stat-n{font-family:var(--serif);font-size:2rem;color:var(--gold);font-weight:700}
+.hero-stat-l{font-size:.73rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px}
+
+.hero-img-wrap{position:relative}
+.hero-img{width:100%;height:590px;object-fit:cover;border-radius:200px 200px 140px 140px;position:relative;z-index:2;animation:imgFloat 6s ease-in-out infinite}
+@keyframes imgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.hero-ring{position:absolute;inset:-22px;border:2px dashed var(--gold-light);border-radius:212px 212px 154px 154px;z-index:1;animation:spin 28s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.float-card{position:absolute;background:#fff;border-radius:16px;padding:15px 20px;box-shadow:0 20px 55px rgba(0,0,0,.09);z-index:3}
+.float-card-1{bottom:80px;left:-44px;animation:fc1 4s ease-in-out infinite}
+.float-card-2{top:60px;right:-28px;animation:fc2 5s ease-in-out infinite}
+@keyframes fc1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes fc2{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.fc-icon{width:38px;height:38px;background:var(--rose);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gold);margin-bottom:8px}
+.fc-label{font-size:.68rem;color:var(--gray);margin-bottom:2px}
+.fc-val{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--dark)}
+
+/* SHARED */
+section{padding:100px 60px}
+.container{max-width:1200px;margin:0 auto}
+.badge{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;padding-left:28px;position:relative}
+.badge::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:18px;height:1px;background:var(--gold)}
+.sec-title{font-family:var(--serif);font-size:clamp(1.9rem,3vw,2.8rem);line-height:1.3;margin-bottom:14px}
+.sec-title em{font-style:italic;color:var(--gold)}
+.sec-desc{font-size:.94rem;color:var(--gray);line-height:1.85;max-width:480px}
+
+/* ABOUT */
+.about{background:#fff}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-photos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.about-photo{width:100%;object-fit:cover;border-radius:16px;transition:transform .4s}
+.about-photo:hover{transform:scale(1.03)}
+.about-photo:nth-child(1){height:300px;border-radius:70px 16px 16px 16px}
+.about-photo:nth-child(2){height:220px}
+.about-photo:nth-child(3){height:220px}
+.about-photo:nth-child(4){height:300px;border-radius:16px 16px 70px 16px}
+.features{margin-top:28px;display:flex;flex-direction:column;gap:12px}
+.feat{display:flex;align-items:center;gap:14px;padding:14px;background:var(--cream);border-radius:12px;transition:all .3s}
+.feat:hover{background:var(--gold-light);transform:translateX(5px)}
+.feat-icon{width:42px;height:42px;background:var(--gold);border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.feat strong{display:block;font-size:.88rem;margin-bottom:2px}
+.feat span{font-size:.78rem;color:var(--gray)}
+
+/* SERVICES */
+.services{background:var(--cream)}
+.services-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:55px;flex-wrap:wrap;gap:20px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.svc-card{background:#fff;border-radius:24px;overflow:hidden;transition:all .4s}
+.svc-card:hover{transform:translateY(-10px);box-shadow:0 30px 60px rgba(0,0,0,.09)}
+.svc-img-wrap{overflow:hidden;position:relative}
+.svc-img{width:100%;height:240px;object-fit:cover;transition:transform .6s}
+.svc-card:hover .svc-img{transform:scale(1.08)}
+.svc-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(201,168,122,.3),transparent);opacity:0;transition:opacity .4s}
+.svc-card:hover .svc-img-wrap::after{opacity:1}
+.svc-body{padding:26px}
+.svc-num{font-size:.7rem;color:var(--gold);letter-spacing:3px;margin-bottom:8px}
+.svc-name{font-family:var(--serif);font-size:1.25rem;margin-bottom:9px}
+.svc-txt{font-size:.83rem;color:var(--gray);line-height:1.75;margin-bottom:18px}
+.svc-link{display:inline-flex;align-items:center;gap:8px;font-size:.83rem;font-weight:600;color:var(--gold);text-decoration:none;transition:gap .3s}
+.svc-link:hover{gap:14px}
+
+/* STATS */
+.stats{background:linear-gradient(135deg,#2A2020 0%,#3d2b2b 100%);padding:80px 60px}
+.stats-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center}
+.stat-item{position:relative}
+.stat-item::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(201,168,122,.25)}
+.stat-item:last-child::after{display:none}
+.stat-n{font-family:var(--serif);font-size:3.5rem;color:var(--gold);font-weight:700;line-height:1}
+.stat-suf{font-size:1.5rem;color:var(--gold)}
+.stat-l{font-size:.8rem;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:2px;margin-top:10px}
+
+/* GALLERY */
+.gallery{background:#fff}
+.gallery-head{text-align:center;margin-bottom:50px}
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:250px 250px;gap:14px}
+.gal-item{overflow:hidden;border-radius:20px;position:relative;cursor:pointer}
+.gal-item:first-child{grid-row:span 2;border-radius:70px 20px 20px 20px}
+.gal-item:last-child{border-radius:20px 20px 70px 20px}
+.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gal-item:hover img{transform:scale(1.1)}
+.gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(201,168,122,.75),transparent);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:20px}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-overlay span{color:#fff;font-size:.83rem;font-weight:600}
+
+/* SPECIALIST */
+.specialist{background:var(--cream)}
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.spec-img-wrap{position:relative}
+.spec-img{width:100%;height:600px;object-fit:cover;object-position:center top;border-radius:140px 140px 30px 140px}
+.spec-deco{position:absolute;bottom:-18px;right:-18px;width:190px;height:190px;border:3px solid var(--gold-light);border-radius:28px;z-index:-1}
+.spec-badge{position:absolute;top:40px;right:-22px;background:#fff;border-radius:16px;padding:16px 20px;box-shadow:0 20px 50px rgba(0,0,0,.09);text-align:center}
+.spec-badge .num{font-family:var(--serif);font-size:2rem;color:var(--gold);font-weight:700;display:block}
+.spec-badge .lbl{font-size:.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px}
+.spec-name{font-family:var(--serif);font-size:2.5rem;margin:14px 0 4px}
+.spec-role{color:var(--gold);font-size:.85rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+.spec-bio{font-size:.93rem;color:var(--gray);line-height:1.92;margin-bottom:28px}
+.spec-creds{display:flex;flex-direction:column;gap:11px;margin-bottom:32px}
+.spec-cred{display:flex;align-items:center;gap:12px;font-size:.88rem}
+.spec-cred i{color:var(--gold);width:18px}
+.socials{display:flex;gap:11px}
+.soc-link{width:44px;height:44px;border-radius:12px;background:var(--gold-light);color:var(--gold);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s}
+.soc-link:hover{background:var(--gold);color:#fff;transform:translateY(-3px)}
+
+/* TESTIMONIALS */
+.testimonials{background:#fff}
+.testi-head{text-align:center;margin-bottom:55px}
+.testi-track{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.testi-card{background:var(--cream);border-radius:24px;padding:34px;transition:all .3s;position:relative}
+.testi-card:hover{background:var(--gold-light);transform:translateY(-5px)}
+.testi-card::before{content:'"';font-family:var(--serif);font-size:6rem;color:var(--gold);opacity:.13;position:absolute;top:8px;left:18px;line-height:1}
+.testi-stars{color:var(--gold);margin-bottom:14px;font-size:.9rem}
+.testi-txt{font-size:.87rem;color:var(--gray);line-height:1.82;margin-bottom:24px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-av{width:46px;height:46px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:1.2rem;flex-shrink:0}
+.testi-name{font-weight:600;font-size:.88rem}
+.testi-svc{font-size:.76rem;color:var(--gray)}
+
+/* FAQ */
+.faq{background:var(--cream)}
+.faq-inner{max-width:780px;margin:0 auto}
+.faq-head{text-align:center;margin-bottom:48px}
+.faq-item{background:#fff;border-radius:15px;margin-bottom:11px;overflow:hidden}
+.faq-q{padding:20px 26px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.92rem;transition:color .3s;user-select:none}
+.faq-q:hover,.faq-q.active{color:var(--gold)}
+.faq-ico{width:30px;height:30px;border-radius:50%;border:2px solid var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.75rem;transition:all .3s;flex-shrink:0}
+.faq-q.active .faq-ico{background:var(--gold);color:#fff;transform:rotate(45deg)}
+.faq-ans{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-ans.open{max-height:200px}
+.faq-ans-in{padding:0 26px 20px;font-size:.86rem;color:var(--gray);line-height:1.82}
+
+/* CTA */
+.cta{background:linear-gradient(135deg,var(--gold) 0%,#b8935a 100%);padding:100px 60px;text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;width:420px;height:420px;border:2px solid rgba(255,255,255,.15);border-radius:50%;top:-160px;left:-100px}
+.cta::after{content:'';position:absolute;width:300px;height:300px;border:2px solid rgba(255,255,255,.1);border-radius:50%;bottom:-100px;right:-50px}
+.cta-inner{position:relative;z-index:2;max-width:680px;margin:0 auto}
+.cta-title{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3rem);color:#fff;margin-bottom:14px}
+.cta-sub{color:rgba(255,255,255,.85);font-size:.97rem;margin-bottom:38px;line-height:1.75}
+.btn-white{background:#fff;color:var(--gold);padding:16px 42px;border-radius:50px;text-decoration:none;font-weight:700;font-size:.97rem;display:inline-flex;align-items:center;gap:12px;transition:all .3s;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.btn-white:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.2)}
+
+/* FOOTER */
+footer{background:var(--dark);padding:70px 60px 28px}
+.footer-top{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.07)}
+.footer-logo{font-family:var(--serif);font-size:1.8rem;color:#fff}
+.footer-logo span{color:var(--gold)}
+.footer-brand p{font-size:.83rem;color:rgba(255,255,255,.45);line-height:1.82;margin:14px 0 24px}
+.footer-col h4{color:#fff;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col ul a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.83rem;transition:color .3s}
+.footer-col ul a:hover{color:var(--gold)}
+.ftr-contact{display:flex;align-items:center;gap:9px;color:rgba(255,255,255,.45);font-size:.83rem;margin-bottom:9px}
+.ftr-contact i{color:var(--gold);width:15px}
+.footer-bottom{max-width:1200px;margin:0 auto;padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+.footer-bottom p{color:rgba(255,255,255,.28);font-size:.78rem}
+
+/* WHATSAPP FLOAT */
+.wa-float{position:fixed;bottom:28px;right:28px;width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;text-decoration:none;z-index:998;box-shadow:0 8px 25px rgba(37,211,102,.4);animation:waPulse 2s ease-in-out infinite;transition:transform .3s}
+.wa-float:hover{transform:scale(1.1)}
+@keyframes waPulse{0%,100%{box-shadow:0 8px 25px rgba(37,211,102,.4)}50%{box-shadow:0 8px 40px rgba(37,211,102,.7)}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-inner,.about-grid,.spec-grid{grid-template-columns:1fr;gap:50px}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .testi-track{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  section,.stats,.cta{padding:65px 24px}
+  .nav{padding:16px 24px}
+  .nav.scrolled{padding:12px 24px}
+  .nav-links{display:none}
+  .hero-inner{padding:110px 24px 60px}
+  .svc-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .gal-grid{grid-template-columns:1fr 1fr}
+  .testi-track{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  footer{padding:60px 24px 24px}
+}
+</style>
+</head>
+<body>
+
+<div id="scrollProgress"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<a href="https://wa.me/5500000000000" class="wa-float" target="_blank" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- NAVBAR -->
+<nav class="nav" id="navbar">
+  <a href="#" class="nav-logo">Studio <span>Estética</span></a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#galeria">Galeria</a></li>
+    <li><a href="#especialista">Especialista</a></li>
+    <li><a href="#contato" class="nav-cta">Agendar</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-blob hero-blob-3"></div>
+  <span class="sparkle">✦</span>
+  <span class="sparkle">✦</span>
+  <span class="sparkle">✦</span>
+  <span class="sparkle">✦</span>
+  <span class="sparkle">✦</span>
+
+  <div class="hero-inner">
+    <div data-aos="fade-right" data-aos-duration="950">
+      <div class="hero-badge">✦ Estética Avançada</div>
+      <h1 class="hero-title">
+        Realce a sua<br>
+        <em>beleza natural</em><br>
+        com excelência
+      </h1>
+      <p class="hero-sub">
+        Tratamentos personalizados com tecnologia de ponta e o cuidado que você merece.
+        Transforme sua pele, eleve sua autoestima.
+      </p>
+      <div class="hero-btns">
+        <a href="#contato" class="btn-gold">
+          <i class="fab fa-whatsapp"></i> Agendar Consulta
+        </a>
+        <a href="#servicos" class="btn-ghost">
+          Ver serviços <span class="arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-n">+500</div>
+          <div class="hero-stat-l">Clientes Atendidas</div>
+        </div>
+        <div>
+          <div class="hero-stat-n">8+</div>
+          <div class="hero-stat-l">Anos de Experiência</div>
+        </div>
+        <div>
+          <div class="hero-stat-n">98%</div>
+          <div class="hero-stat-l">Satisfação</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-img-wrap" data-aos="fade-left" data-aos-duration="950" data-aos-delay="200">
+      <img src="facial-04.webp" alt="Estética Facial" class="hero-img">
+      <div class="hero-ring"></div>
+      <div class="float-card float-card-1">
+        <div class="fc-icon"><i class="fas fa-star"></i></div>
+        <div class="fc-label">Avaliação</div>
+        <div class="fc-val">5.0 ★★★★★</div>
+      </div>
+      <div class="float-card float-card-2">
+        <div class="fc-icon"><i class="fas fa-shield-heart"></i></div>
+        <div class="fc-label">Procedimentos</div>
+        <div class="fc-val">100% Seguros</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="sobre">
+  <div class="container about-grid">
+    <div data-aos="fade-right" data-aos-duration="900">
+      <div class="about-photos">
+        <img src="facial-01.webp" alt="Tratamento" class="about-photo">
+        <img src="facial-05.webp" alt="Procedimento" class="about-photo">
+        <img src="facial-06.webp" alt="Tecnologia" class="about-photo">
+        <img src="facial-02.webp" alt="Skincare" class="about-photo">
+      </div>
+    </div>
+    <div data-aos="fade-left" data-aos-duration="900" data-aos-delay="150">
+      <div class="badge">Sobre nós</div>
+      <h2 class="sec-title">Um espaço pensado<br>para o seu <em>cuidado</em></h2>
+      <p class="sec-desc">
+        Somos um estúdio de estética dedicado à sua transformação. Unimos técnica apurada,
+        produtos de alta performance e atendimento completamente personalizado para resultados
+        que fazem a diferença real na sua pele.
+      </p>
+      <div class="features">
+        <div class="feat" data-aos="fade-up" data-aos-delay="100">
+          <div class="feat-icon"><i class="fas fa-leaf"></i></div>
+          <div>
+            <strong>Produtos Premium</strong>
+            <span>Cosméticos de alta performance com resultados comprovados</span>
+          </div>
+        </div>
+        <div class="feat" data-aos="fade-up" data-aos-delay="200">
+          <div class="feat-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+          <div>
+            <strong>Tecnologia Avançada</strong>
+            <span>Equipamentos modernos para os melhores resultados</span>
+          </div>
+        </div>
+        <div class="feat" data-aos="fade-up" data-aos-delay="300">
+          <div class="feat-icon"><i class="fas fa-heart"></i></div>
+          <div>
+            <strong>Atendimento Personalizado</strong>
+            <span>Cada cliente recebe um protocolo exclusivo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicos">
+  <div class="container">
+    <div class="services-head">
+      <div data-aos="fade-right">
+        <div class="badge">Nossos serviços</div>
+        <h2 class="sec-title">O que oferecemos<br>para <em>você</em></h2>
+      </div>
+      <p class="sec-desc" data-aos="fade-left">
+        Tratamentos selecionados para realçar a sua beleza natural com segurança e excelência.
+      </p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="svc-img-wrap">
+          <img src="facial-01.webp" alt="Limpeza de Pele" class="svc-img">
+        </div>
+        <div class="svc-body">
+          <div class="svc-num">01</div>
+          <h3 class="svc-name">Limpeza de Pele</h3>
+          <p class="svc-txt">Higienização profunda para uma pele limpa, radiante e renovada. Indicada para todos os tipos de pele.</p>
+          <a href="#contato" class="svc-link">Agendar <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="svc-img-wrap">
+          <img src="facial-04.webp" alt="Lifting Facial" class="svc-img">
+        </div>
+        <div class="svc-body">
+          <div class="svc-num">02</div>
+          <h3 class="svc-name">Lifting Facial</h3>
+          <p class="svc-txt">Técnica não invasiva para rejuvenescimento e firmeza. Resultados visíveis desde a primeira sessão.</p>
+          <a href="#contato" class="svc-link">Agendar <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="svc-img-wrap">
+          <img src="facial-05.webp" alt="Harmonização" class="svc-img">
+        </div>
+        <div class="svc-body">
+          <div class="svc-num">03</div>
+          <h3 class="svc-name">Harmonização Facial</h3>
+          <p class="svc-txt">Procedimentos estéticos para realçar seus traços naturais com resultado harmonioso e elegante.</p>
+          <a href="#contato" class="svc-link">Agendar <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="svc-img-wrap">
+          <img src="facial-06.webp" alt="Tratamento com Luz" class="svc-img">
+        </div>
+        <div class="svc-body">
+          <div class="svc-num">04</div>
+          <h3 class="svc-name">Tratamentos com Luz</h3>
+          <p class="svc-txt">Tecnologia de ponta para tratar manchas, acne e rugas, rejuvenescendo a pele de forma eficiente.</p>
+          <a href="#contato" class="svc-link">Agendar <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="svc-img-wrap">
+          <img src="facial-02.webp" alt="Skincare" class="svc-img">
+        </div>
+        <div class="svc-body">
+          <div class="svc-num">05</div>
+          <h3 class="svc-name">Skincare Personalizado</h3>
+          <p class="svc-txt">Protocolos de cuidado diário desenvolvidos especialmente para o seu tipo de pele e necessidades.</p>
+          <a href="#contato" class="svc-link">Agendar <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="svc-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="svc-img-wrap">
+          <img src="facial-03.webp" alt="Hidratação" class="svc-img">
+        </div>
+        <div class="svc-body">
+          <div class="svc-num">06</div>
+          <h3 class="svc-name">Hidratação Profunda</h3>
+          <p class="svc-txt">Tratamento intensivo para recuperar a hidratação da pele com ativos de alta eficácia e penetração.</p>
+          <a href="#contato" class="svc-link">Agendar <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats-grid">
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="0">
+      <div class="stat-n"><span class="counter" data-target="8">0</span><span class="stat-suf">+</span></div>
+      <div class="stat-l">Anos de Experiência</div>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+      <div class="stat-n"><span class="counter" data-target="500">0</span><span class="stat-suf">+</span></div>
+      <div class="stat-l">Clientes Atendidas</div>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+      <div class="stat-n"><span class="counter" data-target="15">0</span><span class="stat-suf">+</span></div>
+      <div class="stat-l">Tratamentos Disponíveis</div>
+    </div>
+    <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+      <div class="stat-n"><span class="counter" data-target="98">0</span><span class="stat-suf">%</span></div>
+      <div class="stat-l">Clientes Satisfeitas</div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="galeria">
+  <div class="container">
+    <div class="gallery-head" data-aos="fade-up">
+      <div class="badge">Nossa galeria</div>
+      <h2 class="sec-title">Transformações <em>reais</em></h2>
+    </div>
+    <div class="gal-grid">
+      <div class="gal-item" data-aos="fade-up" data-aos-delay="0">
+        <img src="facial-03.webp" alt="Tratamento Facial">
+        <div class="gal-overlay"><span>Tratamento Facial</span></div>
+      </div>
+      <div class="gal-item" data-aos="fade-up" data-aos-delay="100">
+        <img src="facial-01.webp" alt="Limpeza de Pele">
+        <div class="gal-overlay"><span>Limpeza de Pele</span></div>
+      </div>
+      <div class="gal-item" data-aos="fade-up" data-aos-delay="200">
+        <img src="facial-04.webp" alt="Lifting Facial">
+        <div class="gal-overlay"><span>Lifting Facial</span></div>
+      </div>
+      <div class="gal-item" data-aos="fade-up" data-aos-delay="300">
+        <img src="facial-05.webp" alt="Procedimento Estético">
+        <div class="gal-overlay"><span>Procedimento Estético</span></div>
+      </div>
+      <div class="gal-item" data-aos="fade-up" data-aos-delay="400">
+        <img src="facial-06.webp" alt="Tecnologia Avançada">
+        <div class="gal-overlay"><span>Tecnologia Avançada</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALIST -->
+<section class="specialist" id="especialista">
+  <div class="container spec-grid">
+    <div class="spec-img-wrap" data-aos="fade-right" data-aos-duration="950">
+      <img src="esteticista.webp" alt="Esteticista" class="spec-img">
+      <div class="spec-deco"></div>
+      <div class="spec-badge">
+        <span class="num">8+</span>
+        <span class="lbl">Anos de Expertise</span>
+      </div>
+    </div>
+    <div data-aos="fade-left" data-aos-duration="950" data-aos-delay="200">
+      <div class="badge">Nossa especialista</div>
+      <h2 class="spec-name">Karla Estética</h2>
+      <div class="spec-role">Esteticista &amp; Cosmetóloga</div>
+      <p class="spec-bio">
+        Com mais de 8 anos de experiência, apaixonada pela arte de realçar a beleza natural de cada cliente.
+        Especialista em tratamentos faciais, harmonização e procedimentos estéticos avançados.
+        Cada atendimento é uma experiência única, pensada especialmente para você.
+      </p>
+      <div class="spec-creds">
+        <div class="spec-cred"><i class="fas fa-graduation-cap"></i> Graduação em Estética e Cosmetologia</div>
+        <div class="spec-cred"><i class="fas fa-certificate"></i> Certificada em Harmonização Facial</div>
+        <div class="spec-cred"><i class="fas fa-award"></i> Especialização em Tratamentos Avançados</div>
+        <div class="spec-cred"><i class="fas fa-star"></i> +500 clientes satisfeitas atendidas</div>
+      </div>
+      <div class="socials">
+        <a href="#" class="soc-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="soc-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="soc-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testi-head" data-aos="fade-up">
+      <div class="badge">Depoimentos</div>
+      <h2 class="sec-title">O que dizem nossas <em>clientes</em></h2>
+    </div>
+    <div class="testi-track" data-aos="fade-up" data-aos-delay="200">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-txt">"Melhor investimento que fiz! Minha pele nunca esteve tão bonita. O atendimento é impecável e os resultados falam por si. Recomendo de olhos fechados!"</p>
+        <div class="testi-author">
+          <div class="testi-av">A</div>
+          <div>
+            <div class="testi-name">Ana Paula S.</div>
+            <div class="testi-svc">Limpeza de Pele + Hidratação</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-txt">"Fiz o lifting facial e fiquei encantada! Em 3 sessões já notei uma diferença enorme. A profissional é muito atenciosa e explica tudo com muito cuidado."</p>
+        <div class="testi-author">
+          <div class="testi-av">M</div>
+          <div>
+            <div class="testi-name">Mariana C.</div>
+            <div class="testi-svc">Lifting Facial</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-txt">"Ambiente aconchegante e profissional top! Me sinto outra pessoa depois de cada sessão. Com certeza continuarei meu tratamento aqui. Excelente!"</p>
+        <div class="testi-author">
+          <div class="testi-av">J</div>
+          <div>
+            <div class="testi-name">Juliana R.</div>
+            <div class="testi-svc">Harmonização Facial</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-inner">
+    <div class="faq-head" data-aos="fade-up">
+      <div class="badge">Dúvidas</div>
+      <h2 class="sec-title">Perguntas <em>frequentes</em></h2>
+    </div>
+    <div data-aos="fade-up" data-aos-delay="200">
+      <div class="faq-item">
+        <div class="faq-q">Como é feita a avaliação inicial? <span class="faq-ico"><i class="fas fa-plus"></i></span></div>
+        <div class="faq-ans"><div class="faq-ans-in">A avaliação inicial é gratuita e dura cerca de 30 minutos. Fazemos uma análise completa da sua pele, identificamos as principais necessidades e elaboramos um protocolo personalizado para você.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Quantas sessões para ver resultado? <span class="faq-ico"><i class="fas fa-plus"></i></span></div>
+        <div class="faq-ans"><div class="faq-ans-in">Depende do tratamento e do objetivo. Já é possível notar diferença após a 1ª sessão. Para resultados completos e duradouros, recomendamos entre 4 a 10 sessões conforme o protocolo indicado.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Os procedimentos são seguros? <span class="faq-ico"><i class="fas fa-plus"></i></span></div>
+        <div class="faq-ans"><div class="faq-ans-in">Sim, todos os procedimentos são realizados por profissionais certificadas, utilizando produtos e equipamentos aprovados pela Anvisa. Sua segurança e bem-estar são nossa prioridade.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Como faço para agendar? <span class="faq-ico"><i class="fas fa-plus"></i></span></div>
+        <div class="faq-ans"><div class="faq-ans-in">O agendamento é fácil! Entre em contato pelo WhatsApp ou clique em "Agendar Consulta". Respondemos em até 1 hora durante o horário de atendimento.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Quais são os horários de atendimento? <span class="faq-ico"><i class="fas fa-plus"></i></span></div>
+        <div class="faq-ans"><div class="faq-ans-in">Atendemos de segunda a sexta das 9h às 19h, e sábados das 9h às 15h. Para atendimentos fora do horário, consulte disponibilidade pelo WhatsApp.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contato">
+  <div class="cta-inner" data-aos="fade-up">
+    <div class="badge" style="color:rgba(255,255,255,.8)">Agende agora</div>
+    <h2 class="cta-title">Comece sua<br>transformação hoje</h2>
+    <p class="cta-sub">Dê o primeiro passo para uma pele mais bonita e saudável.<br>Agende sua consulta gratuita e descubra o tratamento ideal para você.</p>
+    <a href="https://wa.me/5500000000000" class="btn-white" target="_blank">
+      <i class="fab fa-whatsapp"></i> Falar no WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">Studio <span>Estética</span></div>
+      <p>Seu espaço de beleza e bem-estar. Tratamentos personalizados para realçar a sua beleza natural com segurança e excelência.</p>
+      <div class="socials">
+        <a href="#" class="soc-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="soc-link"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="soc-link"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <ul>
+        <li><a href="#servicos">Limpeza de Pele</a></li>
+        <li><a href="#servicos">Lifting Facial</a></li>
+        <li><a href="#servicos">Harmonização</a></li>
+        <li><a href="#servicos">Tratamentos com Luz</a></li>
+        <li><a href="#servicos">Skincare</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#especialista">Especialista</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <div class="ftr-contact"><i class="fas fa-phone"></i> (00) 00000-0000</div>
+      <div class="ftr-contact"><i class="fab fa-whatsapp"></i> (00) 00000-0000</div>
+      <div class="ftr-contact"><i class="fas fa-map-marker-alt"></i> Sua Cidade, SC</div>
+      <div class="ftr-contact"><i class="fas fa-clock"></i> Seg–Sex: 9h–19h</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Studio Estética. Todos os direitos reservados.</p>
+    <p>Feito com ♥</p>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({once:true,offset:80,duration:820});
+
+// Cursor
+const cursor=document.getElementById('cursor');
+const dot=document.getElementById('cursorDot');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  setTimeout(()=>{dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px'},80);
+});
+document.querySelectorAll('a,button,.svc-card,.testi-card,.gal-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cursor.style.transform='translate(-50%,-50%) scale(1.8)');
+  el.addEventListener('mouseleave',()=>cursor.style.transform='translate(-50%,-50%) scale(1)');
+});
+
+// Scroll progress + navbar
+window.addEventListener('scroll',()=>{
+  const st=document.documentElement.scrollTop;
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('scrollProgress').style.width=(st/sh*100)+'%';
+  document.getElementById('navbar').classList.toggle('scrolled',st>50);
+});
+
+// Counter
+const counters=document.querySelectorAll('.counter');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const target=+e.target.dataset.target;
+    let cur=0;const step=target/60;
+    const t=setInterval(()=>{
+      cur+=step;if(cur>=target){cur=target;clearInterval(t);}
+      e.target.textContent=Math.floor(cur);
+    },22);
+    obs.unobserve(e.target);
+  });
+},{threshold:.5});
+counters.forEach(c=>obs.observe(c));
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const ans=q.nextElementSibling;
+    const open=ans.classList.contains('open');
+    document.querySelectorAll('.faq-ans').forEach(a=>a.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(qq=>qq.classList.remove('active'));
+    if(!open){ans.classList.add('open');q.classList.add('active');}
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>
